@@ -11,7 +11,7 @@ def welcome_assignment_answers(question):
         answer = "No"
         return (answer)
     elif question == "Is it possible to decrypt a message without a key? - Yes/No":
-        answer = "No" #maybe a Yes, if its a theoretical question
+        answer = "Yes" #maybe a Yes, if its a theoretical question
         return (answer)
     elif question == "Is it possible to decode a message without a key? - Yes/No":
         answer = "No" #maybe a Yes
@@ -26,7 +26,7 @@ def welcome_assignment_answers(question):
         answer = "Yes"
         return (answer)
     elif question == "What layer from the TCP/IP model the protocol DHCP belongs to? - The answer should be a numeric number":
-        answer = "7"
+        answer = "5"
         return (answer)
     elif question == "What layer of the TCP/IP model the protocol TCP belongs to? - The answer should be a numeric number":
         answer = "4"
