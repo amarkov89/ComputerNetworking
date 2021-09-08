@@ -23,7 +23,7 @@ def welcome_assignment_answers(question):
         answer = "42b76fe51778764973077a5a94056724"
         return (answer)
     elif question == "Is MD5 a secured hashing algorithm? - Yes/No":
-        answer = "Yes"
+        answer = "No"
         return (answer)
     elif question == "What layer from the TCP/IP model the protocol DHCP belongs to? - The answer should be a numeric number":
         answer = int(5)
