@@ -13,7 +13,7 @@ def webServer(port=13331):
   while True:
     #Establish the connection
     #print('Ready to serve...')
-	print ("Ready to serve...")
+	#print ("Ready to serve...")
     connectionSocket, addr = serverSocket.accept()
     try:
 
@@ -22,12 +22,12 @@ def webServer(port=13331):
         filename = message.split()[1]
         f = open(filename[1:])
         outputdata = f.read()
-		print (outputdata)
+		#print (outputdata)
         
         #Send one HTTP header line into socket.
         #Fill in start
 		
-		connectionSocket.send("\nHTTP/1.1 200 OK\n\n".encode())
+        connectionSocket.send("\nHTTP/1.1 200 OK\n\n".encode())
 
         #Fill in end
 
@@ -41,7 +41,7 @@ def webServer(port=13331):
         # Send response message for file not found (404)
         #Fill in start
 		
-		connectionSocket.send("\nHTTP/1.1 404 Not Found\n\n".encode())
+        connectionSocket.send("\nHTTP/1.1 404 Not Found\n\n".encode())
 
         #Fill in end
 
@@ -49,7 +49,7 @@ def webServer(port=13331):
         #Close client socket
         #Fill in start
 		
-		connectionSocket.close()
+        connectionSocket.close()
 
         #Fill in end
 
@@ -59,5 +59,5 @@ def webServer(port=13331):
   serverSocket.close()
   sys.exit()  # Terminate the program after sending the corresponding data
 
-if __name__ == "__main__":
-  webServer(13331)
+  if __name__ == "__main__":
+    webServer(13331)
