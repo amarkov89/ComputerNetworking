@@ -1,63 +1,87 @@
-# import socket module
 from socket import *
-# In order to terminate the program
-import sys
 
 
-def webServer(port=13331):
-  serverSocket = socket(AF_INET, SOCK_STREAM)
-  #Prepare a server socket
-  serverSocket.bind(("", port))
-  serverSocket.listen(1)
-  
-  while True:
-    #Establish the connection
-    #print('Ready to serve...')
-	#print ("Ready to serve...")
-    connectionSocket, addr = serverSocket.accept()
-    try:
+def smtp_client(port=1025, mailserver='127.0.0.1'):
+   msg = "\r\n My message"
+   endmsg = "\r\n.\r\n"
 
-      try:
-        message = connectionSocket.recv(1024).decode()
-        filename = message.split()[1]
-        f = open(filename[1:])
-        outputdata = f.read()
-		#print (outputdata)
-        
-        #Send one HTTP header line into socket.
-        #Fill in start
-		
-        connectionSocket.send("\nHTTP/1.1 200 OK\n\n".encode())
+   # Choose a mail server (e.g. Google mail server) if you want to verify the script beyond GradeScope
+   # mailserver=("smtp.nyu.edu", 25) 
+   # Create socket called clientSocket and establish a TCP connection with mailserver and port
+   # Fill in start
+   clientSocket = socket(AF_INET, SOCK_STREAM)
+   clientSocket.connect(mailserver)
+   # Fill in end
 
-        #Fill in end
+   recv = clientSocket.recv(1024).decode()
+   #print(recv)
+   if recv[:3] != '220':
+       #print('220 reply not received from server.')
 
-        #Send the content of the requested file to the client
-        for i in range(0, len(outputdata)):
-          connectionSocket.send(outputdata[i].encode())
+   # Send HELO command and print server response.
+    heloCommand = 'HELO Alice\r\n'
+    clientSocket.send(heloCommand.encode())
+    recv1 = clientSocket.recv(1024).decode()
+    #print(recv1)
+    if recv1[:3] != '250':
+       #print('250 reply not received from server.')
 
-        connectionSocket.send("\r\n".encode())
-        connectionSocket.close()
-      except IOError:
-        # Send response message for file not found (404)
-        #Fill in start
-		
-        connectionSocket.send("\nHTTP/1.1 404 Not Found\n\n".encode())
+   # Send MAIL FROM command and print server response.
+   # Fill in start
+     mailFrom = "Mail From: <student@nyu.edu> \r\n"
+     clientSocket.send(mailFrom.encode())
+     recv2 = clientSocket.recv(1024)
+     #print("Server response to mail from command: " + recv2)
+     if recv1[:3] != '250':
+          #print('250 reply not received from server.')
+   # Fill in end
 
-        #Fill in end
+   # Send RCPT TO command and print server response.
+   # Fill in start
+   rcptTo = "RCPT TO: <am6131@nyu.edu> \r\n"
+   clientSocket.send(rcptTo.encode())
+   recv3 = clientSocket.recv(1024)
+   #print("Server response to Rcpt To command: " + recv3)
+   if recv1[:3] != '250':
+      #print('250 reply not received from server.')
+   # Fill in end
+
+   # Send DATA command and print server response.
+   # Fill in start
+   data = "DATA\r\n"
+   clientSocket.send(data.encode())
+   recv4 = clientSocket.recv(1024)
+  # print("Server response to DATA command: " + recv4)
+   if recv1[:3] != '250':
+      #print('250 reply not received from server.')
+   # Fill in end
+
+   # Send message data.
+   # Fill in start
+   subject = "Subject: SMTP Test \r\n\r\n"
+   clientSocket.send(subject.encode())
+   clientSocket.send(msg.encode())
+   clientSocket.send(endmsg.encode())
+   recv_msg = clientSocket.recv(1024)
+   #print("Message data response:" + recv_msg.decode())
+   if recv1[:3] != '250':
+      #print('250 reply not received from server.')
+   # Fill in end
+
+   # Message ends with a single period.
+   # Fill in start
+
+   # Fill in end
+
+   # Send QUIT command and get server response.
+   # Fill in start
+   clientSocket.send("QUIT\r\n".encode())
+   message = clientSocket.recv(1024)
+   #print(message)
+   clientSocket.close()
+   # Fill in end
 
 
-        #Close client socket
-        #Fill in start
-		
-        connectionSocket.close()
+if __name__ == '__main__':
+   smtp_client(1025, '127.0.0.1')
 
-        #Fill in end
-
-    except (ConnectionResetError, BrokenPipeError):
-      pass
-
-  serverSocket.close()
-  sys.exit()  # Terminate the program after sending the corresponding data
-
-  if __name__ == "__main__":
-    webServer(13331)
