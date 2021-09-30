@@ -79,6 +79,7 @@ def smtp_client (port=1025, mailserver='127.0.0.1'):
     message = clientSocket.recv(1024)
 #print(message)
     clientSocket.close()
+    sys.exit()
 #Fill in end
 
 if __name__ == '__main__':
