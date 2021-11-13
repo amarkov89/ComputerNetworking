@@ -120,21 +120,21 @@ def ping(host, timeout=1):
     packet_max = 0
     packet_avg = 0
     stdev_var = 0
-    # vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),str(round(stdev(stdev_var), 2))]
+    vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),str(round(stdev(stdev_var), 2))]
     # Send ping requests to a server separated by approximately one second
     for i in range(0,4):
         delay = doOnePing(dest, timeout)
         print(delay)
-        delaylist.append('delay')
+        delaylist.append(float(delay))
         time.sleep(1)  # one second
 
-    packet_min = min(float(str((delaylist))))
-    packet_max = max(float(str((delaylist)))
-    packet_avg = float(sum(str((delaylist))))/len(str(delaylist))
-    stdev_var = stdev(float(str(delaylist)))
+    packet_min = min(delaylist)
+    packet_max = max(delaylist)
+    packet_avg = sum((delaylist))/len(str((delaylist)))
+    stdev_var = stdev(delaylist)
 
 
-    return vars, packet_min, packet_max, stdev_var, packet_avg
+    return vars
 
 if __name__ == '__main__':
     ping("google.co.il")
