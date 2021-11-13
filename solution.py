@@ -134,7 +134,7 @@ def ping(host, timeout=1):
     stdev_var = statistics.stdev(delaylist)
 
 
-    return vars
+    return vars, packet_avg, packet_max, packet_min, stdev_var
 
 if __name__ == '__main__':
     ping("google.co.il")
