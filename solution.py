@@ -120,7 +120,7 @@ def ping(host, timeout=1):
     packet_max = 0
     packet_avg = 0
     stdev_var = 0
-    # vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),str(round(stdev(stdev_var), 2))]
+    # vars = [str(round(packet_min, 4)), str(round(packet_avg, 4)), str(round(packet_max, 4)),str(round(stdev(stdev_var), 4))]
     # Send ping requests to a server separated by approximately one second
     for i in range(0,4):
         delay = doOnePing(dest, timeout)
@@ -129,13 +129,13 @@ def ping(host, timeout=1):
         time.sleep(1)  # one second
 
     packet_min = min(delaylist)
-    print(packet_min)
+   # print(packet_min)
     packet_max = max(delaylist)
-    print(packet_max)
+    #print(packet_max)
     packet_avg = sum(delaylist)/len(delaylist)
-    print(packet_avg)
+    #print(packet_avg)
     stdev_var = statistics.stdev(delaylist)
-    print(stdev_var)
+    #print(stdev_var)
     vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),
             str(round(stdev_var, 2))]
 
