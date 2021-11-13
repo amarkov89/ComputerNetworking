@@ -131,10 +131,11 @@ def ping(host, timeout=1):
     packet_min = min(delaylist)
     packet_max = max(delaylist)
     packet_avg = sum((delaylist))/len(str((delaylist)))
-    stdev_var = statistics.stdev(delaylist)
+    stdev_var = list(map(float, delaylist))
+    vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),
+            str(round(statistics.stdev(stdev_var), 2))]
 
-
-    return vars, packet_avg, packet_max, packet_min, stdev_var
+    return vars
 
 if __name__ == '__main__':
     ping("google.co.il")
