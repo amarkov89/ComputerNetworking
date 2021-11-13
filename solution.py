@@ -52,13 +52,14 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
 
         # Fetch the ICMP header from the IP packet
         icmpHeader = recPacket[20:28]
+        rawTTL = struct.unpack("s", bytes([recPacket[8]]))[0]
+        TTL = int(binascii.hexlify(rawTTL), 16)
         icmpType, code, mychecksum, packetID, sequence = struct.unpack("bbHHh", icmpHeader)
 
-        if type != 8 and packetID == ID:
-            bytesInDouble = struct.calcsize("d")
-            timeSent = struct.unpack("d", recPacket[28:28 + bytesInDouble])[0]
-            return timeReceived - timeSent
-
+        if packetID == ID:
+            byte = struct.calcsize("d")
+            timeSent = struct.unpack("d", recPacket[28:28 + byte])[0]
+            return (timeReceived - timeSent) * 1000
 
         # Fill in end
         timeLeft = timeLeft - howLongInSelect
@@ -120,7 +121,7 @@ def ping(host, timeout=1):
     packet_max = 0
     packet_avg = 0
     stdev_var = 0
-    # vars = [str(round(packet_min, 4)), str(round(packet_avg, 4)), str(round(packet_max, 4)),str(round(stdev(stdev_var), 4))]
+    # vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),str(round(stdev(stdev_var), 2))]
     # Send ping requests to a server separated by approximately one second
     for i in range(0,4):
         delay = doOnePing(dest, timeout)
@@ -136,8 +137,8 @@ def ping(host, timeout=1):
     #print(packet_avg)
     stdev_var = statistics.stdev(delaylist)
     #print(stdev_var)
-    vars = [str(round(packet_min, 4)), str(round(packet_avg, 4)), str(round(packet_max, 4)),
-            str(round(stdev_var, 4))]
+    vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),
+            str(round(stdev_var, 2))]
 
     return vars
 
