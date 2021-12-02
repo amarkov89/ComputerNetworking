@@ -121,7 +121,7 @@ def get_route(hostname):
                     bytes = struct.calcsize("d")
                     # Fill in start
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
-                    tracelist1.insert(-1, str((timeReceived - t) * 1000) + "ms")
+                    tracelist1.insert(-1, str(int((timeReceived - t) * 1000)) + "ms")
                     tracelist1.insert(-1, addr[0])
                     tracelist2.append(tracelist1)
                     # Fill in end
@@ -129,7 +129,7 @@ def get_route(hostname):
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     # Fill in start
-                    tracelist1.insert(-1, str((timeReceived - t) * 1000) + "ms")
+                    tracelist1.insert(-1, str(int((timeReceived - t) * 1000)) + "ms")
                     tracelist1.insert(-1, addr[0])
                     tracelist2.append(tracelist1)
                     # Fill in end
@@ -137,7 +137,7 @@ def get_route(hostname):
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     # Fillin start
-                    tracelist1.insert(-1, str((timeReceived - t) * 1000) + "ms")
+                    tracelist1.insert(-1, str(int((timeReceived - t) * 1000)) + "ms")
                     tracelist1.insert(-1, addr[0])
                     tracelist2.append(tracelist1)
                     # return
@@ -149,7 +149,8 @@ def get_route(hostname):
                 break
             finally:
                 mySocket.close()
-        print(tracelist1)
+        print(tracelist2)
     return (tracelist2)
-    
+
+
 get_route("www.google.com")
