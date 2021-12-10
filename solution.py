@@ -37,7 +37,6 @@ def checksum(string):
     answer = answer >> 8 | (answer << 8 & 0xff00)
     return answer
 
-
 def build_packet():
     # Fill in start
     # In the sendOnePing() method of the ICMP Ping exercise ,firstly the header of our
@@ -68,8 +67,6 @@ def get_route(hostname):
     tracelist2 = []  # This is your list to contain all traces
 
     for ttl in range(1, MAX_HOPS):
-        tracelist1 = []
-        tracelist1.append(str(ttl))
         for tries in range(TRIES):
             destAddr = gethostbyname(hostname)
             # Fill in start
@@ -111,34 +108,40 @@ def get_route(hostname):
                 # Fill in end
                 try:  # try to fetch the hostname
                     # Fill in start
-                    tracelist1.append(gethostbyaddr(str(addr[0]))[0])
+                    hostAddr = gethostbyaddr(addr[0])[0]
                     # Fill in end
                 except herror:  # if the host does not provide a hostname
                     # Fill in start
-                    tracelist1.append("hostname not returnable")
+                    hostAddr = "hostname not returnable"
                     # Fill in end
                 if types == 11:
                     bytes = struct.calcsize("d")
                     # Fill in start
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
-                    tracelist1.insert(-1, str(int((timeReceived - t) * 1000)) + "ms")
-                    tracelist1.insert(-1, addr[0])
+                    addr = str(addr[0])
+                    ttl = str(ttl)
+                    ms = str((timeReceived - t) * 1000)
+                    tracelist1 = [ttl, ms, addr, hostAddr]
                     tracelist2.append(tracelist1)
                     # Fill in end
                 elif types == 3:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     # Fill in start
-                    tracelist1.insert(-1, str(int((timeReceived - t) * 1000)) + "ms")
-                    tracelist1.insert(-1, addr[0])
+                    addr = str(addr[0])
+                    ttl = str(ttl)
+                    ms = str((timeReceived - t) * 1000)
+                    tracelist1 = [ttl, ms, addr, hostAddr]
                     tracelist2.append(tracelist1)
                     # Fill in end
                 elif types == 0:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     # Fillin start
-                    tracelist1.insert(-1, str(int((timeReceived - t) * 1000)) + "ms")
-                    tracelist1.insert(-1, addr[0])
+                    addr = str(addr[0])
+                    ttl = str(ttl)
+                    ms = str((timeReceived - t) * 1000)
+                    tracelist1 = [ttl, ms, addr, hostAddr]
                     tracelist2.append(tracelist1)
                     # return
                     # Fill in end
@@ -151,6 +154,5 @@ def get_route(hostname):
                 mySocket.close()
         print(tracelist2)
     return (tracelist2)
-
 
 get_route("www.google.com")
