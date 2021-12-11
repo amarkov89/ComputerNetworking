@@ -152,7 +152,7 @@ def get_route(hostname):
                 break
             finally:
                 mySocket.close()
-        print(tracelist2)
+        #print(tracelist2)
     return (tracelist2)
 
 get_route("www.google.com")
