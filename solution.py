@@ -147,7 +147,7 @@ def get_route(hostname):
                     # Fill in end
                 else:
                     # Fill in start
-                    #print('Error')
+                    print('Error')
                     # Fill in end
                 break
             finally:
